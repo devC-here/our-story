@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5 - Letters Taking Flight</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'EB Garamond', serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  background: #1a0030;
+}
+
+/* Smooth moving gradient background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    #1a0030 0%,
+    #3d0060 20%,
+    #7200a8 40%,
+    #b040d8 60%,
+    #8a00c4 80%,
+    #3d0060 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 30s ease infinite;
+  z-index: 0;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animated overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(180, 64, 216, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(240, 200, 255, 0.1) 0%, transparent 60%);
+  animation: overlayPulse 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes overlayPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1) rotate(3deg);
+  }
+}
+
+/* Floating hearts background */
+.bg-heart {
+  position: fixed;
+  pointer-events: none;
+  animation: floatHeart linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
+  z-index: 1;
+}
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(var(--drift)) rotate(var(--rotate)) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Floating particles */
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: rgba(240, 200, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleFloat linear infinite;
+  box-shadow: 0 0 6px rgba(240, 200, 255, 0.8);
+  z-index: 1;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(var(--drift)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Main container */
+.container {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.header {
+  margin-bottom: 40px;
+  animation: slideDown 1s ease 0.3s backwards;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chapter-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #ffd700;
+  margin-bottom: 12px;
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  color: #f0c8ff;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 20px rgba(240, 200, 255, 0.6);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(240, 200, 255, 0.8);
+  margin-bottom: 50px;
+}
+
+/* Hint text */
+#hint {
+  font-size: 1.2rem;
+  color: #f0c8ff;
+  margin-bottom: 30px;
+  font-style: italic;
+  transition: opacity 1s ease;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Drop zone container */
+.drop-zone-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 60px;
+  animation: scaleIn 1s ease 0.6s backwards;
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slots */
+.slot {
+  width: 140px;
+  height: 60px;
+  border: 3px dashed rgba(240, 200, 255, 0.5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(61, 0, 96, 0.4);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.slot.drag-over {
+  border-color: #ff6b9d;
+  background: rgba(180, 64, 216, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.5);
+}
+
+.slot.filled {
+  border-style: solid;
+  border-color: #b040d8;
+  background: rgba(114, 0, 168, 0.6);
+}
+
+/* Heart - 3x larger */
+.heart {
+  font-size: 120px;
+  animation: heartBeat 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 8px 20px rgba(255, 107, 157, 0.7));
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  56% {
+    transform: scale(1);
+  }
+}
+
+/* Draggables container */
+#draggables {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: slideUp 1s ease 0.9s backwards;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Name tags */
+.name-tag {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, rgba(114, 0, 168, 0.5), rgba(180, 64, 216, 0.5));
+  border: 2px solid rgba(240, 200, 255, 0.4);
+  border-radius: 10px;
+  cursor: grab;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #f0c8ff;
+  transition: all 0.3s ease;
+  touch-action: none;
+  user-select: none;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.name-tag:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(180, 64, 216, 0.5);
+  border-color: #ff6b9d;
+}
+
+.name-tag:active {
+  cursor: grabbing;
+  transform: translateY(-1px) scale(0.98);
+}
+
+.name-tag.dragging {
+  opacity: 0.7;
+  cursor: grabbing;
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.6);
+}
+
+.name-tag.placed {
+  cursor: default;
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* Video overlay */
+#video-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: videoFadeIn 1.5s ease;
+}
+
+@keyframes videoFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#origami-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Final screen after video */
+#final-screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  background: linear-gradient(135deg, #1a0030 0%, #3d0060 30%, #7200a8 70%, #b040d8 100%);
+  animation: finalFadeIn 2s ease;
+}
+
+@keyframes finalFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.final-content {
+  text-align: center;
+  animation: finalZoomIn 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s backwards;
+}
+
+@keyframes finalZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.names-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.final-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  color: #f0c8ff;
+  text-shadow: 0 4px 20px rgba(240, 200, 255, 0.8);
+  animation: nameGlow 3s ease-in-out infinite;
+}
+
+@keyframes nameGlow {
+  0%, 100% {
+    text-shadow: 0 4px 20px rgba(240, 200, 255, 0.6);
+  }
+  50% {
+    text-shadow: 0 4px 30px rgba(255, 107, 157, 0.9);
+  }
+}
+
+.final-heart {
+  font-size: 100px;
+  animation: finalHeartBeat 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 25px rgba(255, 107, 157, 0.8));
+}
+
+@keyframes finalHeartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.final-message {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: #d4a5ff;
+  margin-top: 30px;
+  letter-spacing: 2px;
+  animation: messageFade 2s ease 1.5s backwards;
+}
+
+@keyframes messageFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sparkle effect */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  animation: sparkleFade 1.5s ease-out forwards;
+  z-index: 2001;
+}
+
+@keyframes sparkleFade {
+  0% {
+    opacity: 1;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(360deg);
+  }
+}
+
+/* Loading state */
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #f0c8ff;
+  font-style: italic;
+  z-index: 999;
+  display: none;
+  text-shadow: 0 0 10px rgba(240, 200, 255, 0.8);
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .drop-zone-container {
+    gap: 20px;
+  }
+  
+  .slot {
+    width: 120px;
+    height: 55px;
+  }
+  
+  .heart {
+    font-size: 100px;
+  }
+  
+  .name-tag {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+  
+  .names-container {
+    gap: 25px;
+  }
+  
+  .final-heart {
+    font-size: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .drop-zone-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .heart {
+    transform: rotate(90deg);
+    font-size: 90px;
+  }
+  
+  .slot {
+    width: 200px;
+    height: 50px;
+  }
+  
+  #draggables {
+    gap: 15px;
+  }
+  
+  .name-tag {
+    padding: 12px 30px;
+  }
+  
+  .names-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .final-heart {
+    font-size: 70px;
+    transform: rotate(90deg);
+  }
+}
+
+/* Success animation */
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.slot.success {
+  animation: successPulse 0.6s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- Animated background -->
+<div id="bg-hearts"></div>
+<div id="particles"></div>
+
+<div class="container" id="main-container">
+  <div class="header">
+    <div class="chapter-label">Chapter V</div>
+    <h1 class="title">Letters Taking Flight</h1>
+    <p class="subtitle">Where two souls unite as one</p>
+  </div>
+  
+  <div id="hint">Place our names together... 💌</div>
+  
+  <div class="drop-zone-container" id="interaction-area">
+    <div class="slot" id="slot1" data-name=""></div>
+    <div class="heart" id="heartbeat">❤️</div>
+    <div class="slot" id="slot2" data-name=""></div>
+  </div>
+  
+  <div id="draggables">
+    <div class="name-tag" id="name1" data-name="Dev">Dev</div>
+    <div class="name-tag" id="name2" data-name="Disha">Disha</div>
+  </div>
+</div>
+
+<!-- Video Overlay -->
+<div id="video-overlay">
+  <video id="origami-video" playsinline preload="auto">
+    <source src="chapter5-video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- Final Screen -->
+<div id="final-screen">
+  <div class="final-content">
+    <div class="names-container">
+      <div class="final-name">Dev</div>
+      <div class="final-heart">❤️</div>
+      <div class="final-name">Disha</div>
+    </div>
+    <div class="final-message">Forever Together ✨</div>
+  </div>
+</div>
+
+<div class="loading" id="loading">Loading magic... ✨</div>
+
+<script>
+const video = document.getElementById('origami-video');
+const videoOverlay = document.getElementById('video-overlay');
+const finalScreen = document.getElementById('final-screen');
+const draggables = document.querySelectorAll('.name-tag');
+const slots = document.querySelectorAll('.slot');
+const mainContainer = document.getElementById('main-container');
+const hint = document.getElementById('hint');
+const heartElement = document.getElementById('heartbeat');
+
+let filledCount = 0;
+let draggedElement = null;
+
+// Haptic feedback function
+function triggerHaptic(intensity = 'medium') {
+  if ('vibrate' in navigator) {
+    switch(intensity) {
+      case 'light':
+        navigator.vibrate(10);
+        break;
+      case 'medium':
+        navigator.vibrate(20);
+        break;
+      case 'strong':
+        navigator.vibrate(50);
+        break;
+      case 'heartbeat':
+        navigator.vibrate([50, 100, 50]);
+        break;
+      case 'success':
+        navigator.vibrate([30, 50, 30, 50, 30]);
+        break;
+    }
+  }
+}
+
+// Heartbeat haptic sync
+let heartbeatInterval = setInterval(() => {
+  triggerHaptic('heartbeat');
+}, 1200);
+
+// Create sparkle effect
+function createSparkle(x, y) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.innerHTML = '✨';
+  sparkle.style.left = x + 'px';
+  sparkle.style.top = y + 'px';
+  sparkle.style.fontSize = (20 + Math.random() * 30) + 'px';
+  
+  document.body.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 1500);
+}
+
+// Create massive sparkle burst
+function createSparkleBurst() {
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      createSparkle(x, y);
+    }, i * 30);
+  }
+  triggerHaptic('success');
+}
+
+// Create floating background hearts
+function createBgHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'bg-heart';
+  heart.innerHTML = '💗';
+  
+  const size = 15 + Math.random() * 25;
+  heart.style.fontSize = size + 'px';
+  heart.style.left = Math.random() * 100 + '%';
+  heart.style.bottom = '-50px';
+  heart.style.opacity = 0.3 + Math.random() * 0.3;
+  
+  const drift = (Math.random() - 0.5) * 100;
+  const rotation = Math.random() * 360;
+  heart.style.setProperty('--drift', drift + 'px');
+  heart.style.setProperty('--rotate', rotation + 'deg');
+  
+  const duration = 12000 + Math.random() * 8000;
+  heart.style.animationDuration = duration + 'ms';
+  
+  document.getElementById('bg-hearts').appendChild(heart);
+  
+  setTimeout(() => heart.remove(), duration + 100);
+}
+
+// Generate background hearts
+setInterval(createBgHeart, 600);
+for (let i = 0; i < 15; i++) {
+  setTimeout(createBgHeart, i * 400);
+}
+
+// Create particles
+function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    particle.style.setProperty('--drift', (Math.random() - 0.5) * 50 + 'px');
+    container.appendChild(particle);
+  }
+}
+
+createParticles();
+
+// Desktop drag and drop
+draggables.forEach(drag => {
+  drag.addEventListener('dragstart', e => {
+    draggedElement = e.target;
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', e.target.innerHTML);
+    triggerHaptic('light');
+  });
+  
+  drag.addEventListener('dragend', e => {
+    e.target.classList.remove('dragging');
+  });
+});
+
+slots.forEach(slot => {
+  slot.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (!slot.classList.contains('filled')) {
+      slot.classList.add('drag-over');
+    }
+  });
+  
+  slot.addEventListener('dragleave', e => {
+    slot.classList.remove('drag-over');
+  });
+  
+  slot.addEventListener('drop', e => {
+    e.preventDefault();
+    slot.classList.remove('drag-over');
+    
+    if (draggedElement && !slot.classList.contains('filled')) {
+      triggerHaptic('medium');
+      placeNameInSlot(draggedElement, slot);
+    }
+  });
+});
+
+// Mobile touch support
+let touchedElement = null;
+
+draggables.forEach(drag => {
+  drag.addEventListener('touchstart', e => {
+    touchedElement = e.target;
+    const touch = e.touches[0];
+    
+    touchedElement.style.position = 'fixed';
+    touchedElement.style.zIndex = '1000';
+    touchedElement.classList.add('dragging');
+    updateTouchPosition(touch);
+    triggerHaptic('light');
+  }, { passive: true });
+});
+
+document.addEventListener('touchmove', e => {
+  if (touchedElement) {
+    const touch = e.touches[0];
+    updateTouchPosition(touch);
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (touchedElement) {
+    touchedElement.classList.remove('dragging');
+    
+    const touch = e.changedTouches[0];
+    const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+    
+    if (dropTarget && dropTarget.classList.contains('slot') && !dropTarget.classList.contains('filled')) {
+      triggerHaptic('medium');
+      placeNameInSlot(touchedElement, dropTarget);
+    } else {
+      touchedElement.style.position = '';
+      touchedElement.style.left = '';
+      touchedElement.style.top = '';
+      touchedElement.style.transform = '';
+    }
+    
+    touchedElement = null;
+  }
+});
+
+function updateTouchPosition(touch) {
+  if (touchedElement) {
+    touchedElement.style.left = touch.clientX - touchedElement.offsetWidth / 2 + 'px';
+    touchedElement.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
+  }
+}
+
+function placeNameInSlot(nameTag, slot) {
+  nameTag.style.position = '';
+  nameTag.style.left = '';
+  nameTag.style.top = '';
+  nameTag.style.transform = '';
+  nameTag.style.zIndex = '';
+  
+  nameTag.classList.add('placed');
+  nameTag.setAttribute('draggable', 'false');
+  
+  slot.appendChild(nameTag);
+  slot.classList.add('filled', 'success');
+  slot.setAttribute('data-name', nameTag.getAttribute('data-name'));
+  
+  triggerHaptic('success');
+  
+  filledCount++;
+  
+  if (filledCount === 2) {
+    clearInterval(heartbeatInterval);
+    setTimeout(startMagic, 800);
+  }
+}
+
+function startMagic() {
+  hint.style.opacity = '0';
+  mainContainer.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+  mainContainer.style.opacity = '0';
+  mainContainer.style.transform = 'scale(0.95)';
+  
+  document.getElementById('loading').style.display = 'block';
+  
+  setTimeout(() => {
+    mainContainer.style.display = 'none';
+    document.getElementById('loading').style.display = 'none';
+    videoOverlay.style.display = 'flex';
+    
+    video.play().catch(err => {
+      console.error('Video playback error:', err);
+      alert('Please tap to play the video');
+      videoOverlay.addEventListener('click', () => {
+        video.play();
+      }, { once: true });
+    });
+  }, 1500);
+}
+
+// Bird flight haptic during video
+video.addEventListener('play', () => {
+  let birdHapticInterval = setInterval(() => {
+    navigator.vibrate([15, 30, 15, 30, 15]);
+  }, 3000);
+  
+  video.addEventListener('ended', () => {
+    clearInterval(birdHapticInterval);
+  }, { once: true });
+});
+
+// Video ended - show final screen with sparkles
+video.addEventListener('ended', () => {
+  console.log('Video ended - transitioning to final screen');
+  
+  // Create sparkle burst
+  createSparkleBurst();
+  
+  // Fade out video, show final screen
+  setTimeout(() => {
+    videoOverlay.style.transition = 'opacity 1s ease';
+    videoOverlay.style.opacity = '0';
+    
+    setTimeout(() => {
+      videoOverlay.style.display = 'none';
+      finalScreen.style.display = 'flex';
+      
+      // Add particles to final screen
+      const particleContainer = document.getElementById('particles');
+      if (particleContainer) {
+        finalScreen.appendChild(particleContainer);
+      }
+      
+      const bgHearts = document.getElementById('bg-hearts');
+      if (bgHearts) {
+        finalScreen.appendChild(bgHearts);
+      }
+    }, 1000);
+  }, 500);
+});
+</script>
+
+</body>
+</html>
