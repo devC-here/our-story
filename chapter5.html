@@ -22,14 +22,6 @@ body {
   font-family: 'EB Garamond', serif;
   position: fixed;
   inset: 0;
-  background: #1a0030;
-}
-
-/* Smooth moving gradient background */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
   background: linear-gradient(
     135deg,
     #1a0030 0%,
@@ -41,70 +33,21 @@ body::after {
   );
   background-size: 400% 400%;
   animation: gradientMove 30s ease infinite;
-  z-index: 0;
 }
 
 @keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Animated overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse at 20% 30%, rgba(180, 64, 216, 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(240, 200, 255, 0.1) 0%, transparent 60%);
-  animation: overlayPulse 15s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes overlayPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1) rotate(3deg);
-  }
-}
-
-/* Floating hearts background - FASTER */
+/* Background hearts */
 .bg-heart {
   position: fixed;
   pointer-events: none;
-  animation: floatHeartFast linear infinite;
+  font-size: 25px;
   filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
-  z-index: 1;
-}
-
-@keyframes floatHeartFast {
-  0% {
-    transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.5);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(-20vh) translateX(var(--drift)) rotate(var(--rotate)) scale(1);
-    opacity: 0;
-  }
+  z-index: 2;
 }
 
 /* Main container */
@@ -117,34 +60,17 @@ body::before {
   align-items: center;
   justify-content: flex-start;
   padding: 40px 20px;
-  animation: fadeIn 1.5s ease;
+  pointer-events: none;
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.container > * {
+  pointer-events: auto;
 }
 
 /* Header */
 .header {
   text-align: center;
   margin-bottom: 30px;
-  animation: slideDown 1s ease 0.3s backwards;
-}
-
-@keyframes slideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .chapter-label {
@@ -154,7 +80,6 @@ body::before {
   text-transform: uppercase;
   color: #ffd700;
   margin-bottom: 8px;
-  font-weight: 400;
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
@@ -165,58 +90,36 @@ body::before {
   color: #f0c8ff;
   margin-bottom: 10px;
   text-shadow: 0 2px 20px rgba(240, 200, 255, 0.6);
-  line-height: 1.2;
 }
 
 .subtitle {
   font-size: 1rem;
   font-style: italic;
   color: rgba(240, 200, 255, 0.8);
-  margin-bottom: 20px;
 }
 
 /* Hint */
 #hint {
   font-size: 1rem;
   color: #f0c8ff;
-  margin-bottom: 30px;
+  margin: 20px 0 30px;
   font-style: italic;
-  transition: opacity 1s ease;
   animation: pulse 2s ease-in-out infinite;
-  text-align: center;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
 }
 
-/* Drop zone area */
+/* Slots and heart */
 .drop-zone-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  margin-bottom: 40px;
-  animation: scaleIn 1s ease 0.6s backwards;
 }
 
-@keyframes scaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Slots */
 .slot {
   width: clamp(200px, 60vw, 300px);
   height: 60px;
@@ -235,7 +138,6 @@ body::before {
   border-color: #ff6b9d;
   background: rgba(180, 64, 216, 0.5);
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.5);
 }
 
 .slot.filled {
@@ -244,7 +146,6 @@ body::before {
   background: rgba(114, 0, 168, 0.6);
 }
 
-/* Heart - 3x larger */
 .heart {
   font-size: 100px;
   animation: heartBeat 1.2s ease-in-out infinite;
@@ -253,24 +154,14 @@ body::before {
 }
 
 @keyframes heartBeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  14% {
-    transform: scale(1.15);
-  }
-  28% {
-    transform: scale(1);
-  }
-  42% {
-    transform: scale(1.1);
-  }
-  56% {
-    transform: scale(1);
-  }
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  56% { transform: scale(1); }
 }
 
-/* Flying cursive names from bottom */
+/* Flying names */
 .flying-name {
   position: fixed;
   font-family: 'Dancing Script', cursive;
@@ -281,28 +172,9 @@ body::before {
   cursor: grab;
   touch-action: none;
   user-select: none;
-  z-index: 100;
-  animation: flyUp 8s ease-out infinite;
+  z-index: 50;
   filter: drop-shadow(0 4px 12px rgba(180, 64, 216, 0.6));
-}
-
-@keyframes flyUp {
-  0% {
-    bottom: -100px;
-    opacity: 0;
-    transform: translateX(var(--start-x)) scale(0.8);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    bottom: 110vh;
-    opacity: 0;
-    transform: translateX(var(--end-x)) scale(1.2);
-  }
+  white-space: nowrap;
 }
 
 .flying-name:active {
@@ -310,15 +182,15 @@ body::before {
 }
 
 .flying-name.caught {
-  animation: none !important;
-  opacity: 1 !important;
+  z-index: 1000 !important;
 }
 
 .flying-name.placed {
   cursor: default;
-  animation: none;
-  position: relative;
-  font-size: 1.2rem;
+  position: relative !important;
+  font-size: 1.2rem !important;
+  left: auto !important;
+  bottom: auto !important;
 }
 
 /* Video overlay */
@@ -330,16 +202,6 @@ body::before {
   display: none;
   align-items: center;
   justify-content: center;
-  animation: videoFadeIn 1.5s ease;
-}
-
-@keyframes videoFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 #origami-video {
@@ -357,32 +219,10 @@ body::before {
   justify-content: center;
   z-index: 2000;
   background: linear-gradient(135deg, #1a0030 0%, #3d0060 30%, #7200a8 70%, #b040d8 100%);
-  animation: finalFadeIn 2s ease;
-}
-
-@keyframes finalFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .final-content {
   text-align: center;
-  animation: finalZoomIn 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s backwards;
-}
-
-@keyframes finalZoomIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .names-container {
@@ -404,27 +244,18 @@ body::before {
 }
 
 @keyframes nameGlow {
-  0%, 100% {
-    text-shadow: 0 4px 20px rgba(240, 200, 255, 0.6);
-  }
-  50% {
-    text-shadow: 0 4px 30px rgba(255, 107, 157, 0.9);
-  }
+  0%, 100% { text-shadow: 0 4px 20px rgba(240, 200, 255, 0.6); }
+  50% { text-shadow: 0 4px 30px rgba(255, 107, 157, 0.9); }
 }
 
 .final-heart {
   font-size: 80px;
   animation: finalHeartBeat 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 8px 25px rgba(255, 107, 157, 0.8));
 }
 
 @keyframes finalHeartBeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
 .final-message {
@@ -433,44 +264,21 @@ body::before {
   color: #d4a5ff;
   margin-top: 30px;
   letter-spacing: 2px;
-  animation: messageFade 2s ease 1.5s backwards;
 }
 
-@keyframes messageFade {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Sparkle effect */
 .sparkle {
   position: fixed;
   pointer-events: none;
-  animation: sparkleFade 1.5s ease-out forwards;
   z-index: 2001;
+  animation: sparkleFade 1.5s ease-out forwards;
 }
 
 @keyframes sparkleFade {
-  0% {
-    opacity: 1;
-    transform: scale(0) rotate(0deg);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5) rotate(180deg);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.5) rotate(360deg);
-  }
+  0% { opacity: 1; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.5) rotate(180deg); }
+  100% { opacity: 0; transform: scale(0.5) rotate(360deg); }
 }
 
-/* Loading */
 .loading {
   position: fixed;
   top: 50%;
@@ -481,62 +289,20 @@ body::before {
   font-style: italic;
   z-index: 999;
   display: none;
-  text-shadow: 0 0 10px rgba(240, 200, 255, 0.8);
 }
 
-/* Success pulse */
-@keyframes successPulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.slot.success {
-  animation: successPulse 0.6s ease;
-}
-
-/* Mobile adjustments */
 @media (max-width: 768px) {
-  .container {
-    padding: 20px 15px;
-  }
-  
-  .heart {
-    font-size: 80px;
-  }
-  
-  .slot {
-    height: 55px;
-  }
+  .container { padding: 20px 15px; }
+  .heart { font-size: 80px; }
 }
 
 @media (max-height: 700px) {
-  .header {
-    margin-bottom: 15px;
-  }
-  
-  .drop-zone-container {
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .heart {
-    font-size: 70px;
-    margin: 10px 0;
-  }
+  .drop-zone-container { gap: 20px; }
+  .heart { font-size: 70px; margin: 10px 0; }
 }
 </style>
 </head>
 <body>
-
-<!-- Animated background -->
-<div id="bg-hearts"></div>
 
 <div class="container" id="main-container">
   <div class="header">
@@ -554,17 +320,12 @@ body::before {
   </div>
 </div>
 
-<!-- Flying names spawn here -->
-<div id="flying-names-container"></div>
-
-<!-- Video Overlay -->
 <div id="video-overlay">
   <video id="origami-video" playsinline preload="auto">
     <source src="chapter5-video.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- Final Screen -->
 <div id="final-screen">
   <div class="final-content">
     <div class="names-container">
@@ -584,193 +345,210 @@ const videoOverlay = document.getElementById('video-overlay');
 const finalScreen = document.getElementById('final-screen');
 const slots = document.querySelectorAll('.slot');
 const mainContainer = document.getElementById('main-container');
-const hint = document.getElementById('hint');
-const flyingNamesContainer = document.getElementById('flying-names-container');
 
 let filledCount = 0;
 let currentTouchedName = null;
-let spawnedNames = { dev: false, disha: false };
+let activeNames = [];
+let offsetX = 0, offsetY = 0;
 
-// Haptic feedback
-function triggerHaptic(intensity = 'medium') {
-  if ('vibrate' in navigator) {
-    switch(intensity) {
-      case 'light': navigator.vibrate(10); break;
-      case 'medium': navigator.vibrate(20); break;
-      case 'heartbeat': navigator.vibrate([50, 100, 50]); break;
-      case 'success': navigator.vibrate([30, 50, 30, 50, 30]); break;
-    }
-  }
+// Haptic
+function triggerHaptic(type) {
+  if (!navigator.vibrate) return;
+  const patterns = {
+    light: 10,
+    heartbeat: [50, 100, 50],
+    success: [30, 50, 30, 50, 30]
+  };
+  navigator.vibrate(patterns[type] || 20);
 }
 
-// Heartbeat haptic
-let heartbeatInterval = setInterval(() => {
-  triggerHaptic('heartbeat');
-}, 1200);
+// Heartbeat
+const heartbeatInterval = setInterval(() => triggerHaptic('heartbeat'), 1200);
 
-// Create faster background hearts
+// Create and animate background heart
 function createBgHeart() {
   const heart = document.createElement('div');
   heart.className = 'bg-heart';
   heart.innerHTML = '💗';
-  
-  const size = 15 + Math.random() * 25;
-  heart.style.fontSize = size + 'px';
-  heart.style.left = Math.random() * 100 + '%';
+  heart.style.left = Math.random() * window.innerWidth + 'px';
   heart.style.bottom = '-50px';
-  heart.style.opacity = 0.3 + Math.random() * 0.3;
+  heart.style.opacity = (0.3 + Math.random() * 0.3);
   
+  document.body.appendChild(heart);
+  
+  let bottom = -50;
   const drift = (Math.random() - 0.5) * 100;
-  const rotation = Math.random() * 360;
-  heart.style.setProperty('--drift', drift + 'px');
-  heart.style.setProperty('--rotate', rotation + 'deg');
+  const startLeft = parseInt(heart.style.left);
+  const speed = 2 + Math.random() * 1; // Pixels per frame
   
-  // FASTER - 6-10 seconds instead of 12-20
-  const duration = 6000 + Math.random() * 4000;
-  heart.style.animationDuration = duration + 'ms';
-  
-  document.getElementById('bg-hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), duration + 100);
+  const interval = setInterval(() => {
+    bottom += speed;
+    const progress = bottom / window.innerHeight;
+    const currentLeft = startLeft + drift * Math.sin(progress * Math.PI);
+    
+    heart.style.bottom = bottom + 'px';
+    heart.style.left = currentLeft + 'px';
+    
+    if (bottom > window.innerHeight + 50) {
+      clearInterval(interval);
+      heart.remove();
+    }
+  }, 30);
 }
 
-// Spawn hearts more frequently
-setInterval(createBgHeart, 300); // Every 300ms
-for (let i = 0; i < 20; i++) {
-  setTimeout(createBgHeart, i * 200);
+// Spawn hearts continuously
+setInterval(createBgHeart, 400);
+for (let i = 0; i < 15; i++) setTimeout(createBgHeart, i * 200);
+
+// Create and animate flying name
+function createFlyingName(nameText) {
+  const name = document.createElement('div');
+  name.className = 'flying-name';
+  name.textContent = nameText === 'dev' ? 'Dev' : 'Disha';
+  name.setAttribute('data-name', nameText);
+  name.style.left = (20 + Math.random() * 60) + '%';
+  name.style.bottom = '-100px';
+  
+  document.body.appendChild(name);
+  activeNames.push({ el: name, name: nameText });
+  
+  let bottom = -100;
+  const drift = (Math.random() - 0.5) * 100;
+  const startLeft = parseInt(name.style.left);
+  const speed = 3; // Pixels per frame
+  let animating = true;
+  
+  const interval = setInterval(() => {
+    if (name.classList.contains('caught') || name.classList.contains('placed')) {
+      clearInterval(interval);
+      return;
+    }
+    
+    bottom += speed;
+    const progress = bottom / (window.innerHeight + 200);
+    const currentLeft = startLeft + drift * Math.sin(progress * Math.PI);
+    
+    // Opacity fade in/out
+    let opacity = 1;
+    if (progress < 0.1) opacity = progress / 0.1;
+    if (progress > 0.9) opacity = (1 - progress) / 0.1;
+    
+    name.style.bottom = bottom + 'px';
+    name.style.left = currentLeft + '%';
+    name.style.opacity = opacity;
+    
+    if (bottom > window.innerHeight + 100) {
+      clearInterval(interval);
+      name.remove();
+      activeNames = activeNames.filter(n => n.el !== name);
+      setTimeout(() => createFlyingName(nameText), 2000);
+    }
+  }, 30);
+  
+  // Touch/mouse handlers
+  name.addEventListener('touchstart', handleTouchStart, { passive: false });
+  name.addEventListener('mousedown', handleMouseDown);
 }
 
-// Spawn flying name
-function spawnFlyingName(name) {
-  if (spawnedNames[name]) return;
-  
-  const nameEl = document.createElement('div');
-  nameEl.className = 'flying-name';
-  nameEl.textContent = name === 'dev' ? 'Dev' : 'Disha';
-  nameEl.setAttribute('data-name', name);
-  
-  const startX = Math.random() * 50 - 25; // -25 to 25
-  const endX = Math.random() * 50 - 25;
-  nameEl.style.setProperty('--start-x', startX + 'vw');
-  nameEl.style.setProperty('--end-x', endX + 'vw');
-  nameEl.style.left = (Math.random() * 60 + 20) + '%'; // 20-80%
-  nameEl.style.animationDelay = Math.random() * 2 + 's';
-  
-  flyingNamesContainer.appendChild(nameEl);
-  spawnedNames[name] = true;
-  
-  // Touch handling
-  let startX, startY, offsetX, offsetY;
-  
-  nameEl.addEventListener('touchstart', e => {
+function handleTouchStart(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = e.target.getBoundingClientRect();
+  offsetX = touch.clientX - rect.left;
+  offsetY = touch.clientY - rect.top;
+  currentTouchedName = e.target;
+  e.target.classList.add('caught');
+  triggerHaptic('light');
+}
+
+function handleMouseDown(e) {
+  const rect = e.target.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+  currentTouchedName = e.target;
+  e.target.classList.add('caught');
+  triggerHaptic('light');
+}
+
+document.addEventListener('touchmove', e => {
+  if (currentTouchedName) {
     e.preventDefault();
     const touch = e.touches[0];
-    const rect = nameEl.getBoundingClientRect();
-    
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-    
-    currentTouchedName = nameEl;
-    nameEl.classList.add('caught');
-    nameEl.style.position = 'fixed';
-    nameEl.style.zIndex = '1000';
-    
-    updateNamePosition(touch);
-    triggerHaptic('light');
-  }, { passive: false });
+    currentTouchedName.style.left = (touch.clientX - offsetX) + 'px';
+    currentTouchedName.style.bottom = (window.innerHeight - touch.clientY - offsetY) + 'px';
+  }
+}, { passive: false });
+
+document.addEventListener('mousemove', e => {
+  if (currentTouchedName) {
+    currentTouchedName.style.left = (e.clientX - offsetX) + 'px';
+    currentTouchedName.style.bottom = (window.innerHeight - e.clientY - offsetY) + 'px';
+  }
+});
+
+function handleDrop(clientX, clientY) {
+  if (!currentTouchedName) return;
   
-  // Mouse handling
-  nameEl.addEventListener('mousedown', e => {
-    e.preventDefault();
-    const rect = nameEl.getBoundingClientRect();
-    
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    
-    currentTouchedName = nameEl;
-    nameEl.classList.add('caught');
-    nameEl.style.position = 'fixed';
-    nameEl.style.zIndex = '1000';
-    
-    triggerHaptic('light');
-  });
+  const dropTarget = document.elementFromPoint(clientX, clientY);
   
-  function updateNamePosition(touch) {
-    if (currentTouchedName === nameEl) {
-      nameEl.style.left = (touch.clientX - offsetX) + 'px';
-      nameEl.style.top = (touch.clientY - offsetY) + 'px';
+  if (dropTarget && dropTarget.classList.contains('slot') && !dropTarget.classList.contains('filled')) {
+    // Success!
+    currentTouchedName.classList.add('placed');
+    currentTouchedName.style.position = 'relative';
+    currentTouchedName.style.left = '0';
+    currentTouchedName.style.bottom = '0';
+    currentTouchedName.style.opacity = '1';
+    
+    dropTarget.appendChild(currentTouchedName);
+    dropTarget.classList.add('filled');
+    
+    activeNames = activeNames.filter(n => n.el !== currentTouchedName);
+    triggerHaptic('success');
+    
+    filledCount++;
+    if (filledCount === 2) {
+      clearInterval(heartbeatInterval);
+      activeNames.forEach(n => n.el.remove());
+      activeNames = [];
+      setTimeout(startMagic, 800);
     }
+  } else {
+    // Missed - remove and respawn
+    const nameText = currentTouchedName.getAttribute('data-name');
+    currentTouchedName.remove();
+    activeNames = activeNames.filter(n => n.el !== currentTouchedName);
+    setTimeout(() => createFlyingName(nameText), 2000);
   }
   
-  document.addEventListener('touchmove', e => {
-    if (currentTouchedName === nameEl) {
-      e.preventDefault();
-      updateNamePosition(e.touches[0]);
-    }
-  }, { passive: false });
-  
-  document.addEventListener('mousemove', e => {
-    if (currentTouchedName === nameEl) {
-      nameEl.style.left = (e.clientX - offsetX) + 'px';
-      nameEl.style.top = (e.clientY - offsetY) + 'px';
-    }
-  });
-  
-  document.addEventListener('touchend', e => {
-    if (currentTouchedName === nameEl) {
-      handleDrop(e.changedTouches[0]);
-    }
-  });
-  
-  document.addEventListener('mouseup', e => {
-    if (currentTouchedName === nameEl) {
-      handleDrop(e);
-    }
-  });
-  
-  function handleDrop(point) {
-    const dropTarget = document.elementFromPoint(point.clientX, point.clientY);
-    
-    if (dropTarget && dropTarget.classList.contains('slot') && !dropTarget.classList.contains('filled')) {
-      placeNameInSlot(nameEl, dropTarget);
-      triggerHaptic('success');
-    } else {
-      // Return to animation or remove
-      nameEl.remove();
-      spawnedNames[name] = false;
-      setTimeout(() => spawnFlyingName(name), 3000);
-    }
-    
-    currentTouchedName = null;
-  }
+  currentTouchedName = null;
 }
 
-function placeNameInSlot(nameEl, slot) {
-  nameEl.classList.add('placed');
-  nameEl.style.position = '';
-  nameEl.style.left = '';
-  nameEl.style.top = '';
-  nameEl.style.zIndex = '';
-  
-  slot.appendChild(nameEl);
-  slot.classList.add('filled', 'success');
-  
-  filledCount++;
-  
-  if (filledCount === 2) {
-    clearInterval(heartbeatInterval);
-    setTimeout(startMagic, 800);
+document.addEventListener('touchend', e => {
+  if (currentTouchedName) {
+    const touch = e.changedTouches[0];
+    handleDrop(touch.clientX, touch.clientY);
   }
-}
+});
+
+document.addEventListener('mouseup', e => {
+  if (currentTouchedName) {
+    handleDrop(e.clientX, e.clientY);
+  }
+});
 
 // Start spawning names
-setTimeout(() => spawnFlyingName('dev'), 2000);
-setTimeout(() => spawnFlyingName('disha'), 4000);
+setTimeout(() => createFlyingName('dev'), 2000);
+setTimeout(() => createFlyingName('disha'), 4000);
 
-// Respawn if missed
+// Respawn check
 setInterval(() => {
-  if (!spawnedNames.dev && filledCount < 2) spawnFlyingName('dev');
-  if (!spawnedNames.disha && filledCount < 2) spawnFlyingName('disha');
-}, 8000);
+  if (filledCount >= 2) return;
+  const devExists = activeNames.some(n => n.name === 'dev') || document.querySelector('.slot [data-name="dev"]');
+  const dishaExists = activeNames.some(n => n.name === 'disha') || document.querySelector('.slot [data-name="disha"]');
+  
+  if (!devExists) createFlyingName('dev');
+  if (!dishaExists) createFlyingName('disha');
+}, 6000);
 
 function createSparkle(x, y) {
   const sparkle = document.createElement('div');
@@ -779,7 +557,6 @@ function createSparkle(x, y) {
   sparkle.style.left = x + 'px';
   sparkle.style.top = y + 'px';
   sparkle.style.fontSize = (20 + Math.random() * 30) + 'px';
-  
   document.body.appendChild(sparkle);
   setTimeout(() => sparkle.remove(), 1500);
 }
@@ -787,52 +564,37 @@ function createSparkle(x, y) {
 function createSparkleBurst() {
   for (let i = 0; i < 50; i++) {
     setTimeout(() => {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      createSparkle(x, y);
+      createSparkle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
     }, i * 30);
   }
   triggerHaptic('success');
 }
 
 function startMagic() {
-  hint.style.opacity = '0';
   mainContainer.style.transition = 'opacity 1.5s ease';
   mainContainer.style.opacity = '0';
-  
   document.getElementById('loading').style.display = 'block';
   
   setTimeout(() => {
     mainContainer.style.display = 'none';
     document.getElementById('loading').style.display = 'none';
     videoOverlay.style.display = 'flex';
-    
-    video.play().catch(err => {
-      console.error('Video error:', err);
+    video.play().catch(() => {
       videoOverlay.addEventListener('click', () => video.play(), { once: true });
     });
   }, 1500);
 }
 
-// Bird haptic during video
 video.addEventListener('play', () => {
-  let birdInterval = setInterval(() => {
-    navigator.vibrate([15, 30, 15, 30, 15]);
-  }, 3000);
-  
-  video.addEventListener('ended', () => {
-    clearInterval(birdInterval);
-  }, { once: true });
+  const birdInterval = setInterval(() => navigator.vibrate([15, 30, 15, 30, 15]), 3000);
+  video.addEventListener('ended', () => clearInterval(birdInterval), { once: true });
 });
 
-// Video ended
 video.addEventListener('ended', () => {
   createSparkleBurst();
-  
   setTimeout(() => {
     videoOverlay.style.transition = 'opacity 1s ease';
     videoOverlay.style.opacity = '0';
-    
     setTimeout(() => {
       videoOverlay.style.display = 'none';
       finalScreen.style.display = 'flex';
