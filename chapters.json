@@ -1,0 +1,74 @@
+{
+  "chapters": [
+    {
+      "num": 1,
+      "title": "Chapter 1",
+      "password": "chapter1",
+      "hint": "",
+      "filename": "chapter1.html"
+    },
+    {
+      "num": 2,
+      "title": "Chapter 2",
+      "password": "chapter2",
+      "hint": "",
+      "filename": "chapter2.html"
+    },
+    {
+      "num": 3,
+      "title": "Chapter 3",
+      "password": "chapter3",
+      "hint": "",
+      "filename": "chapter3.html"
+    },
+    {
+      "num": 4,
+      "title": "Chapter 4",
+      "password": "chapter4",
+      "hint": "",
+      "filename": "chapter4.html"
+    },
+    {
+      "num": 5,
+      "title": "Chapter 5",
+      "password": "chapter5",
+      "hint": "",
+      "filename": "chapter5.html"
+    },
+    {
+      "num": 6,
+      "title": "Chapter 6",
+      "password": "chapter6",
+      "hint": "",
+      "filename": "chapter6.html"
+    },
+    {
+      "num": 7,
+      "title": "Chapter 7",
+      "password": "chapter7",
+      "hint": "",
+      "filename": "chapter7.html"
+    },
+    {
+      "num": 8,
+      "title": "Chapter 8",
+      "password": "chapter8",
+      "hint": "",
+      "filename": "chapter8.html"
+    },
+    {
+      "num": 9,
+      "title": "Chapter 9",
+      "password": "chapter9",
+      "hint": "",
+      "filename": "chapter9.html"
+    },
+    {
+      "num": 10,
+      "title": "Chapter 10",
+      "password": "chapter10",
+      "hint": "",
+      "filename": "chapter10.html"
+    }
+  ]
+}
