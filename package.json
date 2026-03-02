@@ -1,8 +1,0 @@
-{
-  "name": "our-story",
-  "version": "1.0.0",
-  "description": "Our Story — chapter tracker with Netlify backend",
-  "dependencies": {
-    "@netlify/blobs": "^7.0.0"
-  }
-}
